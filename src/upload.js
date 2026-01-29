@@ -3,8 +3,8 @@ const multer = require("multer");
 const path = require("path"); // Added path module
 console.log('upload.js __dirname:', __dirname);
 
-const { verifyFirebaseToken } = require(path.join(process.cwd(), 'src', 'config', 'firebase-admin'));
-const { uploadFile } = require(path.join(process.cwd(), 'src', 'services', 'storage-services'));
+const { verifyFirebaseToken } = require('./config/firebase-admin');
+const { uploadFile } = require('./services/storage-services');
 
 const router = express.Router();
 

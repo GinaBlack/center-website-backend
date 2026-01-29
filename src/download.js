@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
-const { verifyFirebaseToken } = require(path.join(process.cwd(), 'src', 'config', 'firebase-admin'));
-const { createDownloadUrl } = require(path.join(process.cwd(), 'src', 'services', 'storage-services'));
+const { verifyFirebaseToken } = require('./config/firebase-admin');
+const { createDownloadUrl } = require('./services/storage-services');
 
 const router = express.Router();
 
