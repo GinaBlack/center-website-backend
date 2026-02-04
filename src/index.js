@@ -4,6 +4,7 @@ require("dotenv").config();
 
 const uploadRouter = require("./upload.js");
 const downloadRouter = require("./download.js"); 
+const videoUploadRouter = require("./videoUpload.js");
 
 const app = express();
 const PORT = process.env.PORT || 7000;
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 // Routes
 app.use("/api", uploadRouter);
 app.use("/api", downloadRouter); // Use download router
+app.use("/api", videoUploadRouter);
 
 // Health check endpoint
 app.get("/health", (req, res) => {
@@ -73,6 +75,7 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
   console.log(`📤 Upload: POST http://localhost:${PORT}/api/upload`);
-  console.log(`📥 Download: POST http://localhost:${PORT}/api/download`); // Updated to POST
+  console.log(`📥 Download: POST http://localhost:${PORT}/api/download`); 
+  console.log(`📥 Download: POST http://localhost:${PORT}/api/upload-video`);
   console.log(`📋 List files: GET http://localhost:${PORT}/api/files`);
 });

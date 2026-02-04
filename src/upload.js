@@ -47,29 +47,34 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     const decodedToken = await verifyFirebaseToken(token);
     const userId = decodedToken.uid;
     
-    console.log(`✅ User authenticated: ${userId}`);
+    console.log(`✅ User authenticated: ${userId}. Decoded Token UID: ${decodedToken.uid}`);
 
     // 2. Get file and project ID
     const file = req.file;
     if (!file) {
+      console.warn("⚠️ No file uploaded in request.");
       return res.status(400).json({ 
         success: false, 
         error: "No file uploaded" 
       });
     }
+    console.log(`Received file: ${file.originalname}, MIME: ${file.mimetype}, Size: ${(file.size / 1024).toFixed(2)} KB`);
 
     const { projectId } = req.body;
     if (!projectId) {
+      console.warn("⚠️ Project ID is missing from request body.");
       return res.status(400).json({ 
         success: false, 
         error: "Project ID is required" 
       });
     }
+    console.log(`Received projectId: ${projectId}`);
 
     console.log(`📁 Processing file: ${file.originalname} (${(file.size / 1024 / 1024).toFixed(2)} MB) for project: ${projectId}`);
 
     // 3. Upload to Supabase Storage using the service
     const { path, url } = await uploadFile(file, userId, projectId);
+    console.log(`🚀 File uploaded to Supabase. Path: ${path}, URL: ${url}`);
 
     // 4. Return success response
     const response = {
@@ -84,7 +89,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
       projectId: projectId
     };
 
-    console.log("📨 Sending success response");
+    console.log("📨 Sending success response:", JSON.stringify(response, null, 2));
     res.json(response);
 
   } catch (error) {
